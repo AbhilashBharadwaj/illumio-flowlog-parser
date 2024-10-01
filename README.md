@@ -10,15 +10,25 @@ The program supports **version 2** flow logs only, based on the default AWS flow
 
 ## Assumptions
 
-1. **Custom log formats** or **non-default versions** of flow logs are not supported.
-2. The program assumes **TCP/UDP/ICMP** as the protocol types for port and protocol mapping.
-3. The program processes the flow logs line by line, which is efficient enough for large files up to 10 MB.
-4. The program only processes **version 2** flow logs. Any logs with a different version are skipped.
-5. The input files (`flow_log.txt` and `lookup.csv`) are in plain ASCII text format.
-6. The program assumes a fixed log format with 14 fields. If the log format is incorrect or malformed, the line is skipped.
-7. The tags are case-insensitive, meaning that protocols like `TCP` and `tcp` are treated as the same.
-8. The flow log file can be up to **10 MB** in size, and the lookup table can contain up to **10,000 mappings**.
-9. The program handles flow log entries with `NODATA` and `SKIPDATA` statuses, which are logged but skipped during processing.
+
+1. **Flow Log Format**: The program supports only the default AWS flow log format with a fixed structure of 14 fields. Custom log formats or non-standard versions are not supported. Any malformed logs or logs with a different structure will be skipped.
+   
+2. **Supported Versions**: The program processes only **version 2** flow logs. Entries with other versions are ignored.
+
+3. **Protocols Supported**: The program handles log entries using the **TCP**, **UDP**, and **ICMP** protocols for port-protocol mappings, as defined in the lookup table.
+
+4. **Case Insensitivity**: Protocol names are treated in a case-insensitive manner. For example, `TCP` and `tcp` are considered the same.
+
+5. **Input Files**: Both the flow log (`flow_log.txt`) and the lookup table (`lookup.csv`) are assumed to be in plain ASCII text format.
+
+6. **File Sizes**: The program efficiently processes flow log files up to **10 MB** and lookup tables with up to **10,000 mappings**.
+
+7. **Log Entry Status Handling**: Log entries with statuses of `NODATA` or `SKIPDATA` are logged and skipped during processing. These entries do not affect the output.
+
+8. **Performance**: The program processes the flow log entries line by line, making it suitable for handling large log files up to **10 MB** in size without performance issues.
+
+9. **Error Handling**: Any flow log entry that deviates from the expected structure or format (e.g., incorrect number of fields) is skipped, ensuring that only well-formed entries are processed.
+
 
 ## Folder Structure
 
@@ -75,7 +85,7 @@ ILLUMIO-FLOWLOG-PARSER/
 
 ### Example of Output
 
-Tag Counts:
+```Tag Counts:
 Tag,Count
 sv_P1,2
 email,3
@@ -89,6 +99,7 @@ Port,Protocol,Count
 143,tcp,1
 1024,tcp,1
 80,tcp,1
+```
 
 
 
