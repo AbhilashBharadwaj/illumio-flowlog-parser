@@ -132,8 +132,29 @@ The program uses Python's built-in `logging` module to record important events, 
 
 All logs are printed to the console for easy monitoring during execution.
 
-<!-- ## Notes
+## Code Analysis
 
-1. **Custom log formats** or **non-default versions** of flow logs are not supported.
-2. The program assumes **TCP/UDP/ICMP** as the protocol types for port and protocol mapping.
-3. The program processes the flow logs line by line, which is efficient enough for large files up to 10 MB. -->
+### Design and Efficiency
+
+1. **Simplicity**: The program processes flow logs line-by-line, which minimizes memory usage and makes it efficient for handling files up to **10 MB**. It uses only built-in Python libraries, ensuring ease of use without external dependencies.
+
+2. **Protocol Mapping**: Protocol numbers are mapped using standard IANA protocol numbers (e.g., `6` for TCP, `17` for UDP, `1` for ICMP), ensuring compatibility with standard networking conventions.
+
+3. **Error Handling**: The program gracefully handles malformed lines, unsupported flow log versions, and entries with `NODATA` or `SKIPDATA`, logging useful warnings without crashing.
+
+4. **Modular Structure**: Core functions (parsing, processing, and writing output) are modular, improving maintainability, readability, and ease of testing.
+
+5. **Performance**: The lookup table is stored in a dictionary for efficient constant-time lookups (`O(1)`), and the program processes logs line-by-line for better memory performance.
+
+### Potential Improvements
+
+1. **Custom Protocol Mappings**: Allow users to provide custom protocol mappings via a configuration file.
+   
+2. **Parallel Processing**: Introduce parallel processing for very large files to improve performance.
+
+3. **Additional Formats**: Extend the program to support custom log formats beyond the AWS version 2 flow logs.
+
+## Conclusion
+
+The program is designed to be efficient, easy to use, and maintainable. It handles large log files effectively, while providing flexibility for future enhancements.
+
