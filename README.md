@@ -15,7 +15,7 @@ The program supports **version 2** flow logs only, based on the default AWS flow
    
 2. **Supported Versions**: The program processes only **version 2** flow logs. Entries with other versions are ignored.
 
-3. **Protocols Supported**: The program handles log entries using the **TCP**, **UDP**, and **ICMP** protocols for port-protocol mappings, as defined in the lookup table.
+3. **Protocols Supported**: The program handles log entries using the **TCP**, **UDP**, and **ICMP** protocols for port-protocol mappings, as defined in the lookup table. The protocol number mapping follows the **IANA (Internet Assigned Numbers Authority)** standards.
 
 4. **Case Insensitivity**: Protocol names are treated in a case-insensitive manner. For example, `TCP` and `tcp` are considered the same.
 

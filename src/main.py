@@ -2,15 +2,13 @@ import csv
 import logging
 import os
 from collections import defaultdict
-from typing import Any, Dict, Tuple
+from typing import Dict, Tuple
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# Constants
 PROTOCOL_MAPPING = {"6": "tcp", "17": "udp", "1": "icmp"}
 EXPECTED_HEADERS = ["dstport", "protocol", "tag"]
 
@@ -57,7 +55,6 @@ def process_flow_log_line(
     """Processes a line from the flow log."""
     parts = line.strip().split()
 
-    # Ensure there are enough parts in the line
     if len(parts) != 14:
         logging.warning(f"Skipping malformed line: {line.strip()}")
         return None, None
@@ -128,13 +125,11 @@ def write_output(
         with open(output_file, "w", newline="") as file:
             writer = csv.writer(file)
 
-            # Write Tag Counts
             writer.writerow(["Tag Counts"])
             writer.writerow(["Tag", "Count"])
             for tag, count in tag_count.items():
                 writer.writerow([tag, count])
 
-            # Write Port/Protocol Counts
             writer.writerow([])
             writer.writerow(["Port/Protocol Combination Counts"])
             writer.writerow(["Port", "Protocol", "Count"])
